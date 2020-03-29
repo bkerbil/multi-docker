@@ -1,0 +1,32 @@
+dist: xenial
+os: linux
+language: node_js
+node_js:
+  - "13"
+
+services:
+  - docker
+
+before_install:
+  - docker build -t bkerbil/react-test -f ./client/Dockerfile.dev ./client
+
+script:
+  - echo "Running tests against node $(node -v) and npm $(npm -v) ..."
+  - docker run bkerbil/react-test npm run test -- --coverage
+
+after_success:
+  - docker build -t bkerbil/multi-client ./client
+  - docker built -t bkerbil/multi-nginx ./nginx
+  - docker build -t bkerbil/multi-server ./server
+  - docker build -t bkerbil/multi-worker ./worker
+  # Log in to the docker CLI
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+  # Take those images and push them to docker hub
+  - docker push bkerbil/multi-client
+  - docker pusb bkerbil/multi-nginx
+  - docker push bkerbil/multi-server
+  - docker push bkerbil/multi-worker
+
+
+# TODO DEPLOY TO AWS ELASTIC BEANSTALK
+
