@@ -16,16 +16,16 @@ script:
 
 after_success:
   - docker build -t bkerbil/multi-client ./client
-  - docker built -t bkerbil/multi-nginx ./nginx
+  - docker build -t bkerbil/multi-nginx ./nginx
   - docker build -t bkerbil/multi-server ./server
   - docker build -t bkerbil/multi-worker ./worker
   # Log in to the docker CLI
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
   # Take those images and push them to docker hub
-  - docker push bkerbil/multi-server
-  - docker push bkerbil/multi-worker
   - docker push bkerbil/multi-client
   - docker push bkerbil/multi-nginx
+  - docker push bkerbil/multi-server
+  - docker push bkerbil/multi-worker
   - echo "All work done!"
 
 
