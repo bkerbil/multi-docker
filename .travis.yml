@@ -26,6 +26,7 @@ after_success:
   - docker push bkerbil/multi-nginx
   - docker push bkerbil/multi-server
   - docker push bkerbil/multi-worker
+  - echo "All work done!"
 
 
 # TODO DEPLOY TO AWS ELASTIC BEANSTALK
