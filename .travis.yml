@@ -28,6 +28,16 @@ after_success:
   - docker push bkerbil/multi-worker
   - echo "All work done!"
 
+deploy:
+  provider: elasticbeanstalk
+  region: "eu-central-1"
+  app: "multi-docker"
+  env: "MultiDocker-env"
+  bucket_name: "elasticbeanstalk-eu-central-1-956601236526"
+  bucket_path: "docker-multi"
+  on:
+    branch: master
+  access_key_id: $AWS_ACCESS_KEY
+  secret_access_key: $AWS_SECRET_KEY
 
-# TODO DEPLOY TO AWS ELASTIC BEANSTALK
 
